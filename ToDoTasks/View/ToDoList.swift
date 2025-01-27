@@ -13,8 +13,13 @@ struct ToDoList: View {
     
     var body: some View {
         List {
-            ForEach(vm.tasks) { task in
-                ListRow(item: task)
+            ForEach(vm.tasks) { item in
+                ListRow(item: item)
+                    .onTapGesture {
+                        withAnimation(.linear) {
+                            vm.updateTask(item: item)
+                        }
+                    }
             }
             .onDelete { indexSet in
                 vm.deleteItems(at: indexSet)

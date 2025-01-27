@@ -9,7 +9,12 @@ import SwiftUI
 
 struct AddView: View {
     
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vm: ListViewModel
     @State private var textFieldText = ""
+    
+    private let alertTitle: String = "Your task should be at least 3 characters long! 🫣"
+    @State private var showAlert: Bool = false
     
     var body: some View {
         ScrollView {
@@ -21,8 +26,7 @@ struct AddView: View {
                     .clipShape(.rect(cornerRadius: 10))
                 
                 Button {
-                    
-                } label: {
+                    saveBtnPressed() } label: {
                     Text("Save".uppercased())
                         .foregroundStyle(.white)
                         .font(.headline)
@@ -31,11 +35,29 @@ struct AddView: View {
                         .background(Color.accentColor)
                         .clipShape(.rect(cornerRadius: 10))
                 }
-
             }
             .padding()
         }
         .navigationTitle("Add an item ✍🏼")
+        .alert(alertTitle, isPresented: $showAlert) {
+            Button("OK") { }
+        }
+    }
+    
+    private func saveBtnPressed() {
+        guard textValidation() else {
+            return
+        }
+        vm.addTask(title: textFieldText)
+        dismiss()
+    }
+    
+    private func textValidation() -> Bool {
+        if textFieldText.count < 3 {
+            showAlert.toggle()
+            return false
+        }
+        return true
     }
 }
 
@@ -43,5 +65,6 @@ struct AddView: View {
     NavigationStack {
         AddView()
     }
+    .environmentObject(ListViewModel())
   
 }
