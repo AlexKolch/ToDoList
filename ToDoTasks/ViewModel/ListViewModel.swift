@@ -5,24 +5,27 @@
 //  Created by Алексей Колыченков on 27.01.2025.
 //
 
-import Foundation
+import Foundation 
 
 class ListViewModel: ObservableObject {
     
-    @Published var tasks: [Item] = []
+    @Published var tasks: [Item] = [] {
+        didSet {
+            saveItems() //сохранение изменений
+        }
+    }
+    private let tasksKey = "tasks"
     
     init() {
         loadData()
     }
     
     private func loadData() {
-        let items = [
-        Item(title: "Title", isCompleted: true),
-        Item(title: "Title 2", isCompleted: false),
-        Item(title: "Title 3", isCompleted: false),
-        Item(title: "Title 4", isCompleted: false)
-        ]
-        self.tasks.append(contentsOf: items)
+        guard
+            let data = UserDefaults.standard.data(forKey: tasksKey),
+            let savedTasks = try? JSONDecoder().decode([Item].self, from: data)
+        else { return }
+        self.tasks = savedTasks
     }
     
     //MARK: - Base Functions for work with data
@@ -49,6 +52,12 @@ class ListViewModel: ObservableObject {
         if let index = tasks.firstIndex(where: { $0.id == item.id }) {
             //получаем доступ к нужному объекту в массиве и обновляем его
             tasks[index] = item.updateSelf() //возвращается объект с таким же id, но с обновленным статусом!
+        }
+    }
+    
+    func saveItems() {
+        if let encodedData = try? JSONEncoder().encode(tasks) {
+            UserDefaults.standard.set(encodedData, forKey: tasksKey)
         }
     }
 }
