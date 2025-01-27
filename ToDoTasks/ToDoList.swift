@@ -9,17 +9,18 @@ import SwiftUI
 
 struct ToDoList: View {
     
-    @State private var tasks: [Item] = [
-        Item(title: "Title", isCompleted: true),
-        Item(title: "Title 2", isCompleted: false),
-        Item(title: "Title 3", isCompleted: false),
-        Item(title: "Title 4", isCompleted: false),
-    ]
+    @EnvironmentObject var vm: ListViewModel
     
     var body: some View {
         List {
-            ForEach(tasks) { task in
+            ForEach(vm.tasks) { task in
                 ListRow(item: task)
+            }
+            .onDelete { indexSet in
+                vm.deleteItems(at: indexSet)
+            }
+            .onMove { indexOut, indexIn in
+                vm.moveItems(from: indexOut, to: indexIn)
             }
         }
         .listStyle(.plain)
@@ -33,12 +34,14 @@ struct ToDoList: View {
             }
         }
     }
+  
 }
 
 #Preview {
     NavigationStack{
         ToDoList()
     }
+    .environmentObject(ListViewModel())
 }
 
 

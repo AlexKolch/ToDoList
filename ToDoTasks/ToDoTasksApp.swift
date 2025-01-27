@@ -9,11 +9,15 @@ import SwiftUI
 
 @main
 struct ToDoTasksApp: App {
+    
+    @StateObject var vm: ListViewModel = ListViewModel()
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 ToDoList()
             }
+            .environmentObject(vm) //будет один источник данных для всех view
         }
     }
 }
