@@ -9,16 +9,17 @@ import SwiftUI
 
 struct ToDoList: View {
     
-    @State private var tasks: [String] = [
-        "Title",
-        "Title2",
-        "Title3"
+    @State private var tasks: [Item] = [
+        Item(title: "Title", isCompleted: true),
+        Item(title: "Title 2", isCompleted: false),
+        Item(title: "Title 3", isCompleted: false),
+        Item(title: "Title 4", isCompleted: false),
     ]
     
     var body: some View {
         List {
-            ForEach(tasks, id: \.self) { task in
-                ListRow(title: task)
+            ForEach(tasks) { task in
+                ListRow(item: task)
             }
         }
         .listStyle(.plain)
