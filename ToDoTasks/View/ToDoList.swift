@@ -12,6 +12,34 @@ struct ToDoList: View {
     @EnvironmentObject var vm: ListViewModel
     
     var body: some View {
+        ZStack {
+            if vm.tasks.isEmpty {
+               NoItemsView()
+                    .transition(AnyTransition.opacity.animation(.easeIn))
+            } else {
+                todoList
+            }
+        }
+        .navigationTitle("Tasks ✏️")
+        .toolbar {
+            !vm.tasks.isEmpty ?
+            ToolbarItem(placement: .topBarLeading) {
+                EditButton()
+            }
+            : nil
+           
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink("Add", destination: AddView())
+            }
+        }
+        .font(.headline)
+    }
+  
+}
+
+private extension ToDoList {
+    
+    var todoList: some View {
         List {
             ForEach(vm.tasks) { item in
                 ListRow(item: item)
@@ -29,17 +57,7 @@ struct ToDoList: View {
             }
         }
         .listStyle(.plain)
-        .navigationTitle("Tasks ✏️")
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                EditButton()
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink("Add", destination: AddView())
-            }
-        }
     }
-  
 }
 
 #Preview {
@@ -48,6 +66,3 @@ struct ToDoList: View {
     }
     .environmentObject(ListViewModel())
 }
-
-
-
