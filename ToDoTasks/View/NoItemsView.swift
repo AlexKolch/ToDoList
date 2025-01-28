@@ -38,6 +38,7 @@ struct NoItemsView: View {
             .scaleEffect(animation ? 1.1 : 1.0) //анимируем scale кнопки
             .offset(y: animation ? -3 : 0)
         }
+        .frame(maxWidth: 400) //для горизонтальной ориентации ограничение
         .padding(40)
         .onAppear(perform: addAnimation) //запуск анимации
     }

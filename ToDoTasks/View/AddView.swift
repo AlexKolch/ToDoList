@@ -22,7 +22,8 @@ struct AddView: View {
                 TextField("Type something here...", text: $textFieldText)
                     .padding(.horizontal)
                     .frame(height: 55)
-                    .background(Color(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)))
+                    .frame(maxWidth: 800) //ограничение для ipad
+                    .background(Color(uiColor: .secondarySystemBackground))
                     .clipShape(.rect(cornerRadius: 10))
                 
                 Button {
@@ -31,7 +32,7 @@ struct AddView: View {
                         .foregroundStyle(.white)
                         .font(.headline)
                         .frame(height: 55)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: 800) //ограничение для ipad
                         .background(Color.accentColor)
                         .clipShape(.rect(cornerRadius: 10))
                 }
