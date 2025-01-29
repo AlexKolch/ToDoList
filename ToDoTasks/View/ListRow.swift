@@ -25,7 +25,7 @@ struct ListRow: View {
 
 #Preview {
     Group {
-        ListRow(item: Item(title: "Task1", isCompleted: false))
-        ListRow(item: Item(title: "Task2", isCompleted: true))
+        ListRow(item: Item(title: "Task1", isCompleted: false, order: 1))
+        ListRow(item: Item(title: "Task2", isCompleted: true, order: 2))
     }
 }

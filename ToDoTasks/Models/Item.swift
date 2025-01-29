@@ -12,16 +12,26 @@ struct Item: Identifiable, Codable {
     let id: String
     let title: String
     let isCompleted: Bool
+    let order: Int
     
-    init(id: String = UUID().uuidString, title: String, isCompleted: Bool) {
+    init(id: String = UUID().uuidString, title: String, isCompleted: Bool, order: Int) {
         self.id = id
         self.title = title
         self.isCompleted = isCompleted
+        self.order = order
+    }
+    
+    ///TaskEntity --> Item
+    init(entity: TaskEntity) {
+        self.id = entity.id
+        self.title = entity.title
+        self.isCompleted = entity.isCompleted
+        self.order = Int(entity.order)
     }
     
     ///Обновляем статус задачи тут
     func updateSelf() -> Item {
-        Item(id: self.id, title: self.title, isCompleted: !self.isCompleted)
+        Item(id: self.id, title: self.title, isCompleted: !self.isCompleted, order: self.order)
     }
 }
 

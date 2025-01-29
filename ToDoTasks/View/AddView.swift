@@ -13,7 +13,7 @@ struct AddView: View {
     @EnvironmentObject var vm: ListViewModel
     @State private var textFieldText = ""
     
-    private let alertTitle: String = "Your task should be at least 3 characters long! 🫣"
+    private let alertTitle: String = "Your task should be at least 1 character! 🫣"
     @State private var showAlert: Bool = false
     
     var body: some View {
@@ -54,7 +54,7 @@ struct AddView: View {
     }
     
     private func textValidation() -> Bool {
-        if textFieldText.count < 3 {
+        if textFieldText.count < 1 {
             showAlert.toggle()
             return false
         }
