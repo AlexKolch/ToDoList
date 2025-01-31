@@ -12,6 +12,7 @@ struct AddView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: ListViewModel
     @State private var textFieldText = ""
+    @FocusState private var isFocused: Bool
     
     private let alertTitle: String = "Your task should be at least 1 character! 🫣"
     @State private var showAlert: Bool = false
@@ -20,6 +21,7 @@ struct AddView: View {
         ScrollView {
             VStack {
                 TextField("Type something here...", text: $textFieldText)
+                    .focused($isFocused)
                     .padding(.horizontal)
                     .frame(height: 55)
                     .frame(maxWidth: 800) //ограничение для ipad
@@ -42,6 +44,11 @@ struct AddView: View {
         .navigationTitle("Add an item ✍🏼")
         .alert(alertTitle, isPresented: $showAlert) {
             Button("OK") { }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isFocused = true
+            }
         }
     }
     
